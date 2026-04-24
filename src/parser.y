@@ -1,0 +1,62 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include "ast.h"
+
+void yyerror(const char *s);
+int yylex();
+
+extern void generateLLVM(ASTNode* node);
+extern FILE *out;
+
+/* semantic functions */
+extern void declareVariable(char* name);
+extern void checkVariable(char* name);
+%}
+
+%union {
+    int num;
+    char* id;
+    ASTNode* node;
+}
+
+%token LET PRINT
+%token <num> NUMBER
+%token <id> IDENTIFIER
+%token PLUS EQUAL
+
+%type <node> expression
+
+%%
+
+program:
+    program statement
+    | statement
+;
+
+statement:
+    LET IDENTIFIER EQUAL expression {
+        declareVariable($2);
+        ASTNode* temp = createAssignNode($2, $4);
+        generateLLVM(temp);
+    }
+    | PRINT expression {
+        ASTNode* temp = createPrintNode($2);
+        generateLLVM(temp);
+    }
+;
+
+expression:
+    expression PLUS expression { $$ = createBinaryNode($1, $3); }
+    | NUMBER { $$ = createNumberNode($1); }
+    | IDENTIFIER {
+        checkVariable($1);
+        $$ = createIdentifierNode($1);
+    }
+;
+
+%%
+
+void yyerror(const char *s) {
+    printf("Error: %s\n", s);
+}
