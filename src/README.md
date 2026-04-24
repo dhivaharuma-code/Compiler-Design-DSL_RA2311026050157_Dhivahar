@@ -1,114 +1,106 @@
-# 🧠 DSL Compiler using Flex, Bison & LLVM
+# DSL Compiler Implementation (Flex, Bison & LLVM)
 
-![C](https://img.shields.io/badge/Language-C-blue)
-![Flex](https://img.shields.io/badge/Tool-Flex-orange)
-![Bison](https://img.shields.io/badge/Tool-Bison-yellow)
-![LLVM](https://img.shields.io/badge/Backend-LLVM-green)
-![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
+## Student Details
+**Name:** Dhivahar  
+**Register Number:** RA2311026050157  
 
 ---
 
-## 👩‍💻 Author
-**Josephine Sherly**  
-**Reg No:** RA2311026050023  
+## Project Summary
+This project demonstrates the design and implementation of a simple compiler for a custom Domain-Specific Language (DSL). The compiler processes input programs and converts them into executable form using LLVM.
 
 ---
 
-## 📌 Project Overview
-This project implements a complete end-to-end compiler for a custom Domain-Specific Language (DSL). It demonstrates all major phases of compiler design, from lexical analysis to executable generation using LLVM.
+## Compilation Workflow
+
+The compiler follows a structured pipeline:
+
+1. **Lexical Analysis**  
+   - Tokenizes input using Flex  
+
+2. **Syntax Analysis**  
+   - Validates grammar using Bison  
+
+3. **AST Generation**  
+   - Builds structured representation of the program  
+
+4. **Semantic Checking**  
+   - Ensures variables are declared before use  
+
+5. **Code Generation**  
+   - Produces LLVM Intermediate Representation  
+
+6. **Execution**  
+   - LLVM IR → Assembly → Executable  
 
 ---
 
-## ⚙️ Compiler Pipeline
-    DSL Source Code
-           ↓
-    Lexical Analysis (Flex)
-           ↓
-    Syntax Analysis (Bison)
-           ↓
-    Abstract Syntax Tree (AST)
-           ↓
-    Semantic Analysis
-     (Symbol Table)
-           ↓
-    LLVM IR Generation
-           ↓
-    llc → Assembly → Executable
+## Technologies Used
+
+- Flex → Tokenization  
+- Bison → Parsing  
+- C → Core implementation  
+- LLVM → Intermediate code and execution  
 
 ---
 
-## 🛠 Technologies Used
+## Project Layout
 
-| Tool | Purpose |
-|------|--------|
-| Flex | Tokenization |
-| Bison | Parsing |
-| C | Implementation |
-| LLVM | IR + Code Generation |
+src/ → Compiler source files
+test/ → DSL input programs
+output/ → Generated IR and executable
+docs/ → Project documentation
+README.md → Project details
 
----
-
-## 📂 Project Structure
-Compiler-Design-DSL_RA2311026050023_JosephineSherly/
-
-│
-├── src/ # Compiler source files
-├── test/ # Input DSL programs
-├── output/ # LLVM IR & executable
-├── docs/ # Report PDF
-├── README.md
 
 ---
 
-## 🚀 How to Run
+## Execution Instructions
 
 ```bash
 cd src
 
-# Compile
+# Build compiler
 bison -d parser.y
 flex lexer.l
 gcc lex.yy.c parser.tab.c main.c ast.c codegen.c semantic.c -o compiler
 
-# Run DSL
+# Run DSL input
 ../src/compiler < ../test/input1.dsl
 
 # Generate executable
 llc ../output/output.ll -o ../output/output.s
 gcc ../output/output.s -o ../output/program
 
-# Run final program
+# Run output program
 ../output/program
 
-📥 Sample Input
+Example Input
+let x = 10
+print x
+print y
 
-   let x = 10
-   print x
-   print y
+Example Output
+Generating LLVM IR...
+Semantic Error: Variable 'y' not declared
+LLVM IR generated in output/output.ll
 
-📤 Sample Output
+Key Highlights
 
-   Generating LLVM IR...
-   Semantic Error: Variable 'y' not declared
-   LLVM IR generated in output/output.ll
+*Implementation of full compiler pipeline
+*Symbol table for semantic validation
+*LLVM integration for code generation
+*Modular design using separate components
 
-✨ Key Features
-✔ Lexical Analysis using Flex
-✔ Syntax Parsing using Bison
-✔ AST Construction
-✔ Semantic Analysis (Symbol Table)
-✔ LLVM IR Generation
-✔ Native Code Execution 
+Limitations
+*Print functionality is not fully implemented in LLVM
+*Grammar can be extended for complex constructs
 
-⚠️ Limitations
-Print statements are not fully implemented using printf
-Can be extended for real output generation
+Future Improvements
+*Add support for conditional statements
+*Implement full print functionality using LLVM
+*Improve grammar to eliminate parsing conflicts
 
-📌 Future Enhancements
-Add printf support in LLVM IR
-Improve grammar (remove shift/reduce conflict)
-Add control structures (if/while)
+Conclusion
 
-🏁 Conclusion
-
-This project successfully implements a modular compiler design with LLVM backend integration, demonstrating the complete compilation pipeline from DSL to executable.
+The project successfully demonstrates the essential stages of compiler design and provides a working model for DSL compilation using modern tools like LLVM.
